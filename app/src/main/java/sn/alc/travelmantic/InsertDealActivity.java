@@ -29,7 +29,7 @@ public class InsertDealActivity extends AppCompatActivity {
         title=findViewById(R.id.edit_title);
         price=findViewById(R.id.edit_price);
         description=findViewById(R.id.edit_description);
-        FirebaseUtil.openFbreference("traveldeal");
+        FirebaseUtil.openFbreference("traveldeal",this);
         firebaseDatabase=FirebaseUtil.firebaseDatabase;
         databaseReference=FirebaseUtil.databaseReference;
         Intent intent=getIntent();
@@ -50,6 +50,16 @@ public class InsertDealActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater=getMenuInflater();
         inflater.inflate(R.menu.save_menu,menu);
+        if (FirebaseUtil.isAdmin) {
+            menu.findItem(R.id.delete).setVisible(true);
+            menu.findItem(R.id.save).setVisible(true);
+            enableEditTexts(true);
+        }
+        else {
+            menu.findItem(R.id.delete).setVisible(false);
+            menu.findItem(R.id.save).setVisible(false);
+            enableEditTexts(false);
+        }
         return true;
     }
 
@@ -65,7 +75,7 @@ public class InsertDealActivity extends AppCompatActivity {
                 return  true;
             case R.id.delete:
                 deleteDeals();
-                Toast.makeText(this,"deal saved",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"deal deleted",Toast.LENGTH_LONG).show();
                 backtolist();
                 return true;
 
@@ -84,9 +94,8 @@ public class InsertDealActivity extends AppCompatActivity {
 
     private void saveDeals() {
      deal.setTitle(title.getText().toString());
-    deal.setPrice(price.getText().toString());
+     deal.setPrice(price.getText().toString());
      deal.setDescription(description.getText().toString());
-     TravelDeal deal=new TravelDeal(titleDeal,priceDeal,descriptionDeal,"");
      if (deal==null)
      {
          databaseReference.push().setValue(deal);
@@ -111,5 +120,10 @@ public class InsertDealActivity extends AppCompatActivity {
         Intent intent=new Intent(this,ListDealsActivity.class);
         startActivity(intent);
         }
+    private void enableEditTexts(boolean isEnabled) {
+        title.setEnabled(isEnabled);
+        description.setEnabled(isEnabled);
+        price.setEnabled(isEnabled);
+    }
     }
 

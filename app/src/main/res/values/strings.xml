@@ -6,5 +6,6 @@
     <string name="save">save</string>
     <string name="add_travel_deal">Add traveldeal</string>
     <string name="deleteDeal">Delete  Travel deal</string>
+    <string name="logout">Logout</string>
 
 </resources>
