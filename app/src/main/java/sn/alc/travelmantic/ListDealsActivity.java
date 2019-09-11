@@ -90,7 +90,7 @@ public class ListDealsActivity extends AppCompatActivity {
         recyclerView.setAdapter(dealAdapter);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
         recyclerView.setLayoutManager(linearLayoutManager);
-        FirebaseUtil.attachListener();
+       FirebaseUtil.attachListener();
     }
     public void showMenu() {
         invalidateOptionsMenu();

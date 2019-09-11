@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -88,11 +90,13 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.ViewDealHolder
 
     public class ViewDealHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView text_title,text_description,text_price;
+        ImageView imageView;
         public ViewDealHolder(@NonNull View itemView) {
             super(itemView);
             text_title= itemView.findViewById(R.id.titleDeal);
             text_price= itemView.findViewById(R.id.priceDeal);
             text_description= itemView.findViewById(R.id.descriptionDeal);
+            imageView= itemView.findViewById(R.id.imageDeal);
             itemView.setOnClickListener(this);
         }
 
@@ -100,8 +104,20 @@ public class DealAdapter extends RecyclerView.Adapter<DealAdapter.ViewDealHolder
             text_title.setText(deal.getTitle());
             text_price.setText(deal.getPrice()+"FCFA");
             text_description.setText(deal.getDescription());
+            showImage(deal.getImageUrl());
         }
+        private void showImage(String url)
+        {
+            if (url!=null&&url.isEmpty()==false)
+            {
+                Picasso.get()
+                        .load(url)
+                        .resize(160,160)
+                        .centerCrop()
+                        .into(imageView);
 
+            }
+        }
 
         @Override
         public void onClick(View view) {
